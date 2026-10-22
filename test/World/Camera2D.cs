@@ -6,7 +6,10 @@ namespace test.World;
 
 public sealed class Camera2D
 {
+    private const float BackgroundParallax = 0.35f;
+
     public Matrix Transform { get; private set; } = Matrix.Identity;
+    public Matrix BackgroundTransform { get; private set; } = Matrix.Identity;
 
     public void Follow(Player player, Rectangle sceneBounds, Viewport viewport)
     {
@@ -16,5 +19,6 @@ public sealed class Camera2D
             sceneBounds.Left,
             maxX);
         Transform = Matrix.CreateTranslation(-cameraX, 0f, 0f);
+        BackgroundTransform = Matrix.CreateTranslation(-cameraX * BackgroundParallax, 0f, 0f);
     }
 }

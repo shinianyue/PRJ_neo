@@ -1,0 +1,13 @@
+{
+  "id": "tutorial",
+  "lines": [
+    {
+      "speaker": "守门人",
+      "text": "使用 A/D 移动，空格跳跃，按 J 连续发动三段攻击。"
+    },
+    {
+      "speaker": "守门人",
+      "text": "按住 SHIFT 跑动，按住 CTRL 弹反敌人攻击。"
+    }
+  ]
+}

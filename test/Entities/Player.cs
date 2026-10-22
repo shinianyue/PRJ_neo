@@ -18,7 +18,10 @@ namespace test.Entities
         private KeyboardState _previousKeyboardState;
         private float _verticalVelocity;
         private float _horizontalVelocity;
+        private float _dashVelocity;
+        private float _dashTimeRemaining;
         private float _animationTimer;
+        private float _parryTimer;
         private int _animationFrameIndex;
         private int _animationFrame;
         private AnimationMode _animationMode;
@@ -31,8 +34,10 @@ namespace test.Entities
         public float gravity = 1100f;
         public bool IsGrounded { get; private set; }
         public bool FacingRight { get; private set; } = true;
+        public bool IsParrying { get; private set; }
         public int MaxHealth { get; } = 100;
         public int Health { get; private set; } = 100;
+        public Vector2 Position => _position;
         public Rectangle Bounds => new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, FrameHeight);
         public Vector2 HandPosition => new(
             FacingRight ? Bounds.Left + _texture.Width - 10 : Bounds.Left + 10,
@@ -48,18 +53,34 @@ namespace test.Entities
             _position = position;
             _verticalVelocity = 0f;
             _horizontalVelocity = 0f;
+            _dashVelocity = 0f;
+            _dashTimeRemaining = 0f;
             _animationTimer = 0f;
+            _parryTimer = 0f;
             _animationFrameIndex = 0;
             _animationFrame = 0;
             _animationMode = AnimationMode.Idle;
             IsGrounded = false;
             FacingRight = true;
+            IsParrying = false;
             _previousKeyboardState = Keyboard.GetState();
         }
 
         public void SetHorizontalPosition(float x)
         {
             _position.X = x;
+        }
+
+        public void StartDash(float distance, float duration)
+        {
+            if (distance <= 0f || duration <= 0f)
+            {
+                return;
+            }
+
+            _dashVelocity = (FacingRight ? 1f : -1f) * distance / duration;
+            _dashTimeRemaining = duration;
+            _horizontalVelocity = _dashVelocity;
         }
 
         public void TakeDamage(int damage)
@@ -70,9 +91,21 @@ namespace test.Entities
             }
         }
 
+        public void OnParrySuccess()
+        {
+            IsParrying = false;
+            _parryTimer = 0f;
+        }
+
         public void ResetHealth()
         {
             Health = MaxHealth;
+        }
+
+        public void RestoreState(Vector2 position, int health)
+        {
+            ResetPosition(position);
+            Health = Math.Clamp(health, 1, MaxHealth);
         }
 
         public void Update(GameTime gameTime, IReadOnlyList<Rectangle> platforms, Rectangle bounds)
@@ -83,15 +116,50 @@ namespace test.Entities
                 (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right) ? 1f : 0f) -
                 (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left) ? 1f : 0f);
             var isRunning = keyboardState.IsKeyDown(Keys.LeftShift) || keyboardState.IsKeyDown(Keys.RightShift);
-            var targetVelocity = horizontalInput * (isRunning ? runSpeed : walkSpeed);
-            var rate = horizontalInput == 0f ? deceleration : acceleration;
-            _horizontalVelocity = MoveTowards(_horizontalVelocity, targetVelocity, rate * elapsedSeconds);
+            var parryPressed = keyboardState.IsKeyDown(Keys.LeftControl) || keyboardState.IsKeyDown(Keys.RightControl) || keyboardState.IsKeyDown(Keys.K);
+            var parryHeld = _parryTimer > 0f;
+            if (parryPressed && IsGrounded)
+            {
+                IsParrying = true;
+                _parryTimer = 0.25f;
+            }
+            else if (_parryTimer > 0f)
+            {
+                _parryTimer = Math.Max(0f, _parryTimer - elapsedSeconds);
+                if (_parryTimer == 0f)
+                {
+                    IsParrying = false;
+                }
+            }
+            else
+            {
+                IsParrying = false;
+            }
 
-            _position.X += _horizontalVelocity * elapsedSeconds;
+            if (_dashTimeRemaining > 0f)
+            {
+                _position.X += _dashVelocity * elapsedSeconds;
+                _dashTimeRemaining = Math.Max(0f, _dashTimeRemaining - elapsedSeconds);
+                if (_dashTimeRemaining == 0f)
+                {
+                    _dashVelocity = 0f;
+                    _horizontalVelocity = 0f;
+                }
+            }
+            else
+            {
+                var targetVelocity = horizontalInput * (isRunning ? runSpeed : walkSpeed);
+                var rate = horizontalInput == 0f ? deceleration : acceleration;
+                _horizontalVelocity = MoveTowards(_horizontalVelocity, targetVelocity, rate * elapsedSeconds);
+                _position.X += _horizontalVelocity * elapsedSeconds;
+            }
+
             _position.X = MathHelper.Clamp(_position.X, bounds.Left, bounds.Right - _texture.Width);
             if (_position.X <= bounds.Left || _position.X >= bounds.Right - _texture.Width)
             {
                 _horizontalVelocity = 0f;
+                _dashVelocity = 0f;
+                _dashTimeRemaining = 0f;
             }
             if (horizontalInput != 0f)
             {
@@ -151,12 +219,21 @@ namespace test.Entities
                 IsGrounded = true;
             }
 
-            UpdateAnimation(elapsedSeconds, isRunning);
+            UpdateAnimation(elapsedSeconds, isRunning, parryHeld);
             _previousKeyboardState = keyboardState;
         }
 
-        private void UpdateAnimation(float elapsedSeconds, bool isRunning)
+        private void UpdateAnimation(float elapsedSeconds, bool isRunning, bool parryHeld)
         {
+            if (IsParrying || parryHeld)
+            {
+                _animationMode = AnimationMode.Idle;
+                _animationFrame = 0;
+                _animationTimer = 0f;
+                _animationFrameIndex = 0;
+                return;
+            }
+
             if (!IsGrounded)
             {
                 Animate(JumpFrames, AnimationMode.Jump, elapsedSeconds, 0.14f);

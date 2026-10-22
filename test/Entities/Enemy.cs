@@ -18,6 +18,7 @@ public sealed class Enemy
     public Rectangle Bounds { get; private set; }
     public int MaxHealth { get; }
     public int Health { get; private set; }
+    public int PositionX => Bounds.X;
     public bool IsAlive => Health > 0;
     public bool FacingRight { get; private set; }
     public bool IsPreparingAttack => _attackWindupTimer > 0f;
@@ -47,6 +48,18 @@ public sealed class Enemy
         _attackWindupTimer = 0f;
         _attackCooldownTimer = 0f;
         FacingRight = false;
+    }
+
+    public void RestoreState(int health, int positionX, Rectangle sceneBounds)
+    {
+        Bounds = new Rectangle(
+            MathHelper.Clamp(positionX, sceneBounds.Left, sceneBounds.Right - Bounds.Width),
+            Bounds.Y,
+            Bounds.Width,
+            Bounds.Height);
+        Health = System.Math.Clamp(health, 0, MaxHealth);
+        _attackWindupTimer = 0f;
+        _attackCooldownTimer = 0f;
     }
 
     public void Update(GameTime gameTime, Player player, Rectangle sceneBounds)
@@ -92,7 +105,11 @@ public sealed class Enemy
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, Texture2D texture, Texture2D pixelTexture)
+    public void Draw(
+        SpriteBatch spriteBatch,
+        Texture2D texture,
+        Texture2D weaponTexture,
+        Texture2D pixelTexture)
     {
         if (!IsAlive)
         {
@@ -104,6 +121,30 @@ public sealed class Enemy
         var effects = FacingRight ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
         var color = IsPreparingAttack ? Color.OrangeRed : Color.White;
         spriteBatch.Draw(texture, new Vector2(Bounds.Center.X, Bounds.Y), source, color, 0f, origin, 1f, effects, 0f);
+
+        var weaponAngle = IsPreparingAttack ? -1.1f : -0.35f;
+        if (!FacingRight)
+        {
+            weaponAngle = -weaponAngle;
+        }
+
+        var grip = new Vector2(8f, 48f);
+        var weaponOrigin = FacingRight
+            ? grip
+            : new Vector2(weaponTexture.Width - grip.X, grip.Y);
+        var handPosition = new Vector2(
+            Bounds.Center.X + (FacingRight ? 10f : -10f),
+            Bounds.Top + 36f);
+        spriteBatch.Draw(
+            weaponTexture,
+            handPosition,
+            null,
+            Color.White,
+            weaponAngle,
+            weaponOrigin,
+            1f,
+            effects,
+            0f);
 
         var healthBar = new Rectangle(Bounds.X, Bounds.Y - 10, Bounds.Width, 5);
         var healthFill = new Rectangle(

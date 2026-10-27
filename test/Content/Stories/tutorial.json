@@ -3,11 +3,11 @@
   "lines": [
     {
       "speaker": "守门人",
-      "text": "使用 A/D 移动，空格跳跃，按 J 连续发动三段攻击。"
+      "text": "J: five-hit combo. U: Quickdraw / Moonpiercer."
     },
     {
       "speaker": "守门人",
-      "text": "按住 SHIFT 跑动，按住 CTRL 弹反敌人攻击。"
+      "text": "按住 SHIFT 跑动，在敌人攻击命中前轻点 CTRL 弹反；架势破绽出现时靠近并按 E 处决。"
     }
   ]
 }

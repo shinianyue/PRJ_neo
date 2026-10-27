@@ -25,6 +25,8 @@ public sealed class StoryPlayer
     private int _lineIndex;
 
     public bool IsPlaying => _activeSequence != null;
+    public bool ContainsSequence(string sequenceId) =>
+        !string.IsNullOrWhiteSpace(sequenceId) && _sequences.ContainsKey(sequenceId);
 
     public StoryPlayer(string storyDirectory, Texture2D pixel, SpriteFont font)
     {

@@ -12,7 +12,8 @@ public sealed class Scene
     public Vector2 PlayerStart { get; }
     public IReadOnlyList<Rectangle> Platforms { get; }
     public IReadOnlyList<Rectangle> Obstacles { get; }
-    public Enemy Enemy { get; }
+    public IReadOnlyList<Rectangle> Landmarks { get; }
+    public IReadOnlyList<Enemy> Enemies { get; }
     public DialogueNpc Npc { get; }
 
     public Scene(
@@ -20,14 +21,16 @@ public sealed class Scene
         Vector2 playerStart,
         IReadOnlyList<Rectangle> platforms,
         IReadOnlyList<Rectangle> obstacles,
-        Enemy enemy,
+        IReadOnlyList<Rectangle> landmarks,
+        IReadOnlyList<Enemy> enemies,
         DialogueNpc npc = null)
     {
         Bounds = bounds;
         PlayerStart = playerStart;
         Platforms = platforms;
         Obstacles = obstacles;
-        Enemy = enemy;
+        Landmarks = landmarks;
+        Enemies = enemies;
         Npc = npc;
     }
 
@@ -57,7 +60,21 @@ public sealed class Scene
             spriteBatch.Draw(obstacleTexture, obstacle, Color.White);
         }
 
-        Enemy?.Draw(spriteBatch, enemyTexture, weaponTexture, pixelTexture);
+        foreach (var landmark in Landmarks)
+        {
+            spriteBatch.Draw(wallTexture, landmark, new Color(112, 101, 88));
+            var ember = new Rectangle(landmark.Center.X - 2, landmark.Top + 14, 4, 12);
+            spriteBatch.Draw(pixelTexture, ember, Color.Orange * 0.75f);
+            spriteBatch.Draw(
+                pixelTexture,
+                new Rectangle(landmark.Left - 5, landmark.Bottom - 5, landmark.Width + 10, 5),
+                new Color(8, 8, 10, 180));
+        }
+
+        foreach (var enemy in Enemies)
+        {
+            enemy.Draw(spriteBatch, enemyTexture, weaponTexture, pixelTexture);
+        }
         Npc?.Draw(spriteBatch, enemyTexture);
     }
 

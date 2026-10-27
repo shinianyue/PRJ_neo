@@ -1,7 +1,0 @@
-Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"F:/codes/Graff_sny/project_neo/vc/test/test/Content/images/Angler_Default.png","F:/codes/Graff_sny/project_neo/vc/test/test/Content/bin/Windows/Content/images/Angler_Default.xnb","TextureProcessor","Texture2DContent",4949,213525,0.1591139
-"F:/codes/Graff_sny/project_neo/vc/test/test/Content/images/brick.jpg","F:/codes/Graff_sny/project_neo/vc/test/test/Content/bin/Windows/Content/images/brick.xnb","TextureProcessor","Texture2DContent",9651,4181,0.1893015
-"F:/codes/Graff_sny/project_neo/vc/test/test/Content/images/Item_155.png","F:/codes/Graff_sny/project_neo/vc/test/test/Content/bin/Windows/Content/images/Item_155.xnb","TextureProcessor","Texture2DContent",567,13541,0.0051264
-"F:/codes/Graff_sny/project_neo/vc/test/test/Content/images/shrubs.png","F:/codes/Graff_sny/project_neo/vc/test/test/Content/bin/Windows/Content/images/shrubs.xnb","TextureProcessor","Texture2DContent",108,4181,0.138495
-"F:/codes/Graff_sny/project_neo/vc/test/test/Content/lb.jpg","F:/codes/Graff_sny/project_neo/vc/test/test/Content/bin/Windows/Content/lb.xnb","TextureProcessor","Texture2DContent",190297,13996885,0.2305173
-"F:/codes/Graff_sny/project_neo/vc/test/test/Content/player.png","F:/codes/Graff_sny/project_neo/vc/test/test/Content/bin/Windows/Content/player.xnb","TextureProcessor","Texture2DContent",236,4181,0.1316925

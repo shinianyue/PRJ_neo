@@ -12,10 +12,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.*" />
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
+    <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.6" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.6" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Content\Stories\**\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Data\**\*.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

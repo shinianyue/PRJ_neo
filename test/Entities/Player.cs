@@ -22,6 +22,7 @@ namespace test.Entities
         private float _dashTimeRemaining;
         private float _animationTimer;
         private float _parryTimer;
+        private float _posture;
         private int _animationFrameIndex;
         private int _animationFrame;
         private AnimationMode _animationMode;
@@ -35,8 +36,10 @@ namespace test.Entities
         public bool IsGrounded { get; private set; }
         public bool FacingRight { get; private set; } = true;
         public bool IsParrying { get; private set; }
-        public int MaxHealth { get; } = 100;
+        public int MaxHealth { get; } = 10000;
         public int Health { get; private set; } = 100;
+        public float MaxPosture { get; } = 100f;
+        public float Posture => _posture;
         public Vector2 Position => _position;
         public Rectangle Bounds => new Rectangle((int)_position.X, (int)_position.Y, _texture.Width, FrameHeight);
         public Vector2 HandPosition => new(
@@ -57,6 +60,7 @@ namespace test.Entities
             _dashTimeRemaining = 0f;
             _animationTimer = 0f;
             _parryTimer = 0f;
+            _posture = 0f;
             _animationFrameIndex = 0;
             _animationFrame = 0;
             _animationMode = AnimationMode.Idle;
@@ -91,10 +95,19 @@ namespace test.Entities
             }
         }
 
+        public void AddPostureDamage(float damage)
+        {
+            if (damage > 0f)
+            {
+                _posture = Math.Min(MaxPosture, _posture + damage);
+            }
+        }
+
         public void OnParrySuccess()
         {
             IsParrying = false;
             _parryTimer = 0f;
+            _posture = Math.Max(0f, _posture - 24f);
         }
 
         public void ResetHealth()
@@ -116,25 +129,22 @@ namespace test.Entities
                 (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right) ? 1f : 0f) -
                 (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left) ? 1f : 0f);
             var isRunning = keyboardState.IsKeyDown(Keys.LeftShift) || keyboardState.IsKeyDown(Keys.RightShift);
-            var parryPressed = keyboardState.IsKeyDown(Keys.LeftControl) || keyboardState.IsKeyDown(Keys.RightControl) || keyboardState.IsKeyDown(Keys.K);
-            var parryHeld = _parryTimer > 0f;
-            if (parryPressed && IsGrounded)
+            var parryPressed =
+                (keyboardState.IsKeyDown(Keys.LeftControl) || keyboardState.IsKeyDown(Keys.RightControl) ||
+                 keyboardState.IsKeyDown(Keys.K)) &&
+                !(_previousKeyboardState.IsKeyDown(Keys.LeftControl) ||
+                  _previousKeyboardState.IsKeyDown(Keys.RightControl) ||
+                  _previousKeyboardState.IsKeyDown(Keys.K));
+            if (parryPressed && IsGrounded && _parryTimer <= 0f)
             {
-                IsParrying = true;
-                _parryTimer = 0.25f;
+                _parryTimer = 0.20f;
             }
             else if (_parryTimer > 0f)
             {
                 _parryTimer = Math.Max(0f, _parryTimer - elapsedSeconds);
-                if (_parryTimer == 0f)
-                {
-                    IsParrying = false;
-                }
             }
-            else
-            {
-                IsParrying = false;
-            }
+            IsParrying = _parryTimer > 0f;
+            _posture = Math.Max(0f, _posture - 12f * elapsedSeconds);
 
             if (_dashTimeRemaining > 0f)
             {
@@ -219,13 +229,13 @@ namespace test.Entities
                 IsGrounded = true;
             }
 
-            UpdateAnimation(elapsedSeconds, isRunning, parryHeld);
+            UpdateAnimation(elapsedSeconds, isRunning);
             _previousKeyboardState = keyboardState;
         }
 
-        private void UpdateAnimation(float elapsedSeconds, bool isRunning, bool parryHeld)
+        private void UpdateAnimation(float elapsedSeconds, bool isRunning)
         {
-            if (IsParrying || parryHeld)
+            if (IsParrying)
             {
                 _animationMode = AnimationMode.Idle;
                 _animationFrame = 0;
@@ -290,7 +300,8 @@ namespace test.Entities
             var effects = FacingRight ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             var origin = new Vector2(_texture.Width / 2f, 0f);
             var drawPosition = _position + new Vector2(origin.X, 0f);
-            spriteBatch.Draw(_texture, drawPosition, source, Color.White, 0f, origin, 1f, effects, 0f);
+            var color = IsParrying ? Color.LightGoldenrodYellow : Color.White;
+            spriteBatch.Draw(_texture, drawPosition, source, color, 0f, origin, 1f, effects, 0f);
         }
     }
 }

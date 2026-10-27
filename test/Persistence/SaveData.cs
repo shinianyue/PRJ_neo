@@ -11,5 +11,9 @@ public sealed class SaveData
     public int PlayerHealth { get; set; }
     public int EnemyHealth { get; set; }
     public int EnemyX { get; set; }
+    public int[] EnemyHealths { get; set; } = System.Array.Empty<int>();
+    public int[] EnemyXs { get; set; } = System.Array.Empty<int>();
+    public int[][] SceneEnemyHealths { get; set; } = System.Array.Empty<int[]>();
+    public int[][] SceneEnemyXs { get; set; } = System.Array.Empty<int[]>();
     public DateTime SavedAtUtc { get; set; }
 }

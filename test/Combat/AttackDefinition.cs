@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 using test.Combat.HitDetection;
 
 namespace test.Combat;
@@ -15,6 +16,9 @@ public sealed class AttackDefinition
     public float EndAngle { get; }
     public float DashDistance { get; }
     public IHitRule HitRule { get; }
+    public string Name { get; }
+    public float PostureDamage { get; }
+    public Color TrailColor { get; }
 
     public AttackDefinition(
         Keys inputKey,
@@ -26,15 +30,27 @@ public sealed class AttackDefinition
         float startAngle,
         float endAngle,
         float dashDistance,
-        IHitRule hitRule)
+        IHitRule hitRule,
+        string name = "Slash",
+        float postureDamage = 0f,
+        Color? trailColor = null)
     {
         if (damage <= 0 ||
+            !float.IsFinite(duration) ||
             duration <= 0f ||
+            !float.IsFinite(cooldown) ||
             cooldown < 0f ||
+            !float.IsFinite(activeStart) ||
             activeStart < 0f ||
+            !float.IsFinite(activeEnd) ||
             activeEnd < activeStart ||
             activeEnd > duration ||
-            dashDistance < 0f)
+            !float.IsFinite(startAngle) ||
+            !float.IsFinite(endAngle) ||
+            !float.IsFinite(dashDistance) ||
+            dashDistance < 0f ||
+            !float.IsFinite(postureDamage) ||
+            postureDamage < 0f)
         {
             throw new System.ArgumentOutOfRangeException(nameof(duration), "Attack timing and damage values are invalid.");
         }
@@ -49,5 +65,8 @@ public sealed class AttackDefinition
         EndAngle = endAngle;
         DashDistance = dashDistance;
         HitRule = hitRule ?? throw new System.ArgumentNullException(nameof(hitRule));
+        Name = name ?? throw new System.ArgumentNullException(nameof(name));
+        PostureDamage = postureDamage;
+        TrailColor = trailColor ?? Color.Gold;
     }
 }

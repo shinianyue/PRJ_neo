@@ -1,0 +1,386 @@
+{
+  "weapon": {
+    "gripX": 8,
+    "gripY": 48,
+    "idleAngle": -0.35,
+    "comboResetDelay": 1.0,
+    "attacks": [
+      {
+        "inputKey": "J",
+        "damage": 30,
+        "duration": 0.30,
+        "cooldown": 0.30,
+        "activeStart": 0.05,
+        "activeEnd": 0.22,
+        "startAngle": -1.2,
+        "endAngle": 0.8,
+        "dashDistance": 0,
+        "hitRule": "pixelPerfect",
+        "name": "Crosscut",
+        "postureDamage": 12,
+        "trailColor": "#FFD700"
+      },
+      {
+        "inputKey": "J",
+        "damage": 35,
+        "duration": 0.24,
+        "cooldown": 0.26,
+        "activeStart": 0.04,
+        "activeEnd": 0.18,
+        "startAngle": -0.12,
+        "endAngle": 0.12,
+        "dashDistance": 0,
+        "hitRule": "bounds",
+        "name": "Twin Thrust",
+        "postureDamage": 16,
+        "trailColor": "#FFFFE0"
+      },
+      {
+        "inputKey": "J",
+        "damage": 50,
+        "duration": 0.42,
+        "cooldown": 0.42,
+        "activeStart": 0.10,
+        "activeEnd": 0.36,
+        "startAngle": -0.5,
+        "endAngle": 0.3,
+        "dashDistance": 150,
+        "hitRule": "pixelPerfect",
+        "name": "Dragon Step",
+        "postureDamage": 20,
+        "trailColor": "#FFA500"
+      },
+      {
+        "inputKey": "J",
+        "damage": 44,
+        "duration": 0.48,
+        "cooldown": 0.48,
+        "activeStart": 0.14,
+        "activeEnd": 0.38,
+        "startAngle": -1.45,
+        "endAngle": 0.25,
+        "dashDistance": 0,
+        "hitRule": "bounds",
+        "name": "Rising Crescent",
+        "postureDamage": 28,
+        "trailColor": "#FAFAD2"
+      },
+      {
+        "inputKey": "J",
+        "damage": 62,
+        "duration": 0.58,
+        "cooldown": 0.58,
+        "activeStart": 0.18,
+        "activeEnd": 0.48,
+        "startAngle": 1.05,
+        "endAngle": -0.8,
+        "dashDistance": 70,
+        "hitRule": "pixelPerfect",
+        "name": "Ashfall Finish",
+        "postureDamage": 36,
+        "trailColor": "#FF4500"
+      },
+      {
+        "inputKey": "U",
+        "damage": 48,
+        "duration": 0.42,
+        "cooldown": 0.55,
+        "activeStart": 0.12,
+        "activeEnd": 0.32,
+        "startAngle": -0.18,
+        "endAngle": 0.08,
+        "dashDistance": 100,
+        "hitRule": "bounds",
+        "name": "Quickdraw",
+        "postureDamage": 30,
+        "trailColor": "#E0FFFF"
+      },
+      {
+        "inputKey": "U",
+        "damage": 68,
+        "duration": 0.62,
+        "cooldown": 0.68,
+        "activeStart": 0.22,
+        "activeEnd": 0.48,
+        "startAngle": -0.55,
+        "endAngle": 0.42,
+        "dashDistance": 125,
+        "hitRule": "pixelPerfect",
+        "name": "Moonpiercer",
+        "postureDamage": 42,
+        "trailColor": "#00FFFF"
+      }
+    ]
+  },
+  "enemyArchetypes": {
+    "swordsman": {
+      "style": "Swordsman",
+      "maxHealth": 200,
+      "maxPosture": 100,
+      "postureBreakDuration": 3.5,
+      "moveSpeed": 75,
+      "weaponIdleAngle": -0.35,
+      "width": 40,
+      "height": 58,
+      "tint": "#FFFFFF",
+      "ai": "default",
+      "attacks": [
+        {
+          "name": "Guard Cut",
+          "triggerRange": 52,
+          "damage": 20,
+          "postureDamage": 30,
+          "parryPostureDamage": 38,
+          "windupDuration": 0.28,
+          "cooldownDuration": 1.2,
+          "weaponKind": "Sword",
+          "weaponGripX": 8,
+          "weaponGripY": 48,
+          "weaponScaleX": 1,
+          "weaponScaleY": 1,
+          "weaponWindupAngle": -1.1,
+          "weaponStrikeAngle": 0.6,
+          "hitboxShape": "Rectangle",
+          "hitboxOffsetX": 36,
+          "hitboxOffsetY": 38,
+          "hitboxWidth": 58,
+          "hitboxHeight": 34,
+          "hitboxRadius": 30
+        }
+      ]
+    },
+    "duelist": {
+      "style": "Duelist",
+      "maxHealth": 145,
+      "maxPosture": 100,
+      "postureBreakDuration": 3.5,
+      "moveSpeed": 108,
+      "weaponIdleAngle": -0.35,
+      "width": 40,
+      "height": 58,
+      "tint": "#E1B294",
+      "ai": "default",
+      "attacks": [
+        {
+          "name": "Quick Cut",
+          "triggerRange": 48,
+          "damage": 16,
+          "postureDamage": 24,
+          "parryPostureDamage": 38,
+          "windupDuration": 0.20,
+          "cooldownDuration": 0.88,
+          "weaponKind": "Sword",
+          "weaponGripX": 8,
+          "weaponGripY": 48,
+          "weaponScaleX": 0.9,
+          "weaponScaleY": 0.9,
+          "weaponWindupAngle": -1.35,
+          "weaponStrikeAngle": 0.4,
+          "hitboxShape": "Rectangle",
+          "hitboxOffsetX": 34,
+          "hitboxOffsetY": 37,
+          "hitboxWidth": 56,
+          "hitboxHeight": 30,
+          "hitboxRadius": 28
+        },
+        {
+          "name": "Lunging Arc",
+          "triggerRange": 104,
+          "damage": 22,
+          "postureDamage": 34,
+          "parryPostureDamage": 42,
+          "windupDuration": 0.34,
+          "cooldownDuration": 1.15,
+          "weaponKind": "Sword",
+          "weaponGripX": 8,
+          "weaponGripY": 48,
+          "weaponScaleX": 1.1,
+          "weaponScaleY": 1.1,
+          "weaponWindupAngle": -1.6,
+          "weaponStrikeAngle": 0.9,
+          "hitboxShape": "Circle",
+          "hitboxOffsetX": 48,
+          "hitboxOffsetY": 40,
+          "hitboxWidth": 0,
+          "hitboxHeight": 0,
+          "hitboxRadius": 38
+        }
+      ]
+    },
+    "spearman": {
+      "style": "Spearman",
+      "maxHealth": 185,
+      "maxPosture": 100,
+      "postureBreakDuration": 3.5,
+      "moveSpeed": 58,
+      "weaponIdleAngle": 0,
+      "width": 40,
+      "height": 58,
+      "tint": "#B4CDDC",
+      "ai": "default",
+      "attacks": [
+        {
+          "name": "Spear Thrust",
+          "triggerRange": 112,
+          "damage": 24,
+          "postureDamage": 30,
+          "parryPostureDamage": 48,
+          "windupDuration": 0.48,
+          "cooldownDuration": 1.45,
+          "weaponKind": "Spear",
+          "weaponGripX": 8,
+          "weaponGripY": 48,
+          "weaponScaleX": 1.55,
+          "weaponScaleY": 0.75,
+          "weaponWindupAngle": -0.06,
+          "weaponStrikeAngle": 0.02,
+          "hitboxShape": "Rectangle",
+          "hitboxOffsetX": 60,
+          "hitboxOffsetY": 38,
+          "hitboxWidth": 88,
+          "hitboxHeight": 18,
+          "hitboxRadius": 44
+        }
+      ]
+    },
+    "altarGuardian": {
+      "style": "Duelist",
+      "maxHealth": 310,
+      "maxPosture": 100,
+      "postureBreakDuration": 3.5,
+      "moveSpeed": 108,
+      "weaponIdleAngle": -0.35,
+      "width": 40,
+      "height": 58,
+      "tint": "#E1B294",
+      "ai": "aggressive",
+      "attacks": [
+        {
+          "name": "Guardian Cut",
+          "triggerRange": 64,
+          "damage": 20,
+          "postureDamage": 34,
+          "parryPostureDamage": 42,
+          "windupDuration": 0.26,
+          "cooldownDuration": 0.82,
+          "weaponKind": "Sword",
+          "weaponGripX": 8,
+          "weaponGripY": 48,
+          "weaponScaleX": 1.15,
+          "weaponScaleY": 1.15,
+          "weaponWindupAngle": -1.7,
+          "weaponStrikeAngle": 0.8,
+          "hitboxShape": "Rectangle",
+          "hitboxOffsetX": 42,
+          "hitboxOffsetY": 35,
+          "hitboxWidth": 72,
+          "hitboxHeight": 40,
+          "hitboxRadius": 36
+        },
+        {
+          "name": "Altar Shockwave",
+          "triggerRange": 138,
+          "damage": 28,
+          "postureDamage": 42,
+          "parryPostureDamage": 50,
+          "windupDuration": 0.55,
+          "cooldownDuration": 1.65,
+          "weaponKind": "Sword",
+          "weaponGripX": 8,
+          "weaponGripY": 48,
+          "weaponScaleX": 1.35,
+          "weaponScaleY": 1.35,
+          "weaponWindupAngle": -2.0,
+          "weaponStrikeAngle": 1.2,
+          "hitboxShape": "Circle",
+          "hitboxOffsetX": 54,
+          "hitboxOffsetY": 46,
+          "hitboxWidth": 0,
+          "hitboxHeight": 0,
+          "hitboxRadius": 52
+        }
+      ]
+    }
+  },
+  "scenes": [
+    {
+      "id": "ashen-gate",
+      "name": "ASHEN GATE",
+      "transitionSubtitle": "The road begins beneath a watchful wall",
+      "widthInViewports": 2,
+      "playerStartXRatio": 0.05,
+      "platforms": [
+        { "xRatio": 0.25, "yRatio": 0.60, "widthRatio": 0.50 }
+      ],
+      "obstacles": [],
+      "landmarks": [],
+      "enemies": [],
+      "npc": {
+        "name": "Guard",
+        "sequenceId": "tutorial",
+        "xRatio": 0.20,
+        "active": true
+      }
+    },
+    {
+      "id": "broken-shrine",
+      "name": "BROKEN SHRINE",
+      "transitionSubtitle": "The bridge falls silent",
+      "widthInViewports": 2,
+      "playerStartXRatio": 0.05,
+      "platforms": [
+        { "xRatio": 0.25, "yRatio": 0.60, "widthRatio": 0.50 },
+        { "xRatio": 1.10, "yRatio": 0.43, "widthRatio": 0.3333 },
+        { "xRatio": 1.55, "yRatio": 0.68, "widthRatio": 0.25 }
+      ],
+      "obstacles": [
+        { "xRatio": 0.65 }
+      ],
+      "landmarks": [
+        { "xRatio": 0.72, "width": 22, "height": 96 },
+        { "xRatio": 1.28, "width": 26, "height": 138 },
+        { "xRatio": 1.82, "width": 18, "height": 82 }
+      ],
+      "enemies": [
+        { "archetype": "swordsman", "xRatio": 0.45 },
+        { "archetype": "duelist", "xRatio": 0.92 },
+        { "archetype": "spearman", "xRatio": 1.48 }
+      ]
+    },
+    {
+      "id": "sunken-altar",
+      "name": "SUNKEN ALTAR",
+      "transitionSubtitle": "A blade waits among the old stones",
+      "widthInViewports": 2,
+      "playerStartXRatio": 0.05,
+      "platforms": [
+        { "xRatio": 0.28, "yRatio": 0.61, "widthRatio": 0.42 },
+        { "xRatio": 1.18, "yRatio": 0.48, "widthRatio": 0.32 },
+        { "xRatio": 1.58, "yRatio": 0.66, "widthRatio": 0.25 }
+      ],
+      "obstacles": [],
+      "landmarks": [
+        { "xRatio": 0.82, "width": 30, "height": 156 },
+        { "xRatio": 1.12, "width": 24, "height": 112 },
+        { "xRatio": 1.72, "width": 34, "height": 178 },
+        { "xRatio": 1.90, "width": 22, "height": 92 }
+      ],
+      "enemies": [
+        { "archetype": "spearman", "xRatio": 0.72 },
+        { "archetype": "altarGuardian", "xRatio": 1.50 }
+      ]
+    },
+    {
+      "id":"shore",
+      "name":"SHORE",
+      "transitionSubtitle":"The road ends at the water's edge",
+      "widthInViewports": 2,
+      "playerStartXRatio": 0.05,
+      "platforms": [
+        {"xRatio": 0.25, "yRatio": 0.80, "widthRatio": 0.50 },
+        { "xRatio": 1.10, "yRatio": 0.75, "widthRatio": 0.3333 },
+        { "xRatio": 1.55, "yRatio": 0.70, "widthRatio": 0.25 }
+      ]
+    }
+  ]
+}
